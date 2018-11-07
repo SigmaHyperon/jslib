@@ -124,3 +124,20 @@ describe('Array', function() {
         });
     });
 });
+describe('Object', function() {
+    describe('#attributes()', function(){
+        it('should filter out functions', function() {
+            let test = {
+                bla: 1,
+                bli: 'test',
+                blubb: v => v
+            }
+            let test2 = {
+                bla: 1,
+                bli: 'test'
+            }
+            assert.deepStrictEqual(Object.attributes(test), test2);
+
+        });
+    });
+});

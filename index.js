@@ -88,4 +88,17 @@ module.exports = () => {
         }
         return std.get();
     }
+
+    Object.attributes = function(obj){
+        let cleanAttributes = Object.keys(obj).filter(v => {
+            return (typeof obj[v] !== 'function');
+        });
+        let ret = {};
+        for (var el in cleanAttributes) {
+            if (cleanAttributes.hasOwnProperty(el)) {
+                ret[cleanAttributes[el]] = obj[cleanAttributes[el]];
+            }
+        }
+        return ret;
+    }
 };
