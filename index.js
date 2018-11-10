@@ -109,6 +109,16 @@ module.exports = () => {
         }
         return std.get();
     }
+    Array.prototype.group = function(){
+        var ret = [];
+        for (var i = 0; i < this.length; i++) {
+            if(typeof ret[this[i]] == 'undefined'){
+                ret[this[i]] = 0;
+            }
+            ret[this[i]]++;
+        }
+        return ret;
+    }
 
     Object.attributes = function(obj){
         let cleanAttributes = Object.keys(obj).filter(v => {
