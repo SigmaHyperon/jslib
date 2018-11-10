@@ -24,6 +24,14 @@
          return stdDev;
      }
  }
+ function helper(a, x){
+     let partA = Math.pow(2,a*x)-Math.pow(2,-a*x);
+     let partB = Math.pow(2,a)-Math.pow(2,-a);
+     return partA/partB;
+ }
+ function helper2(a,x){
+     return 0.5*helper(a,2*x-1)+0.5;
+ }
 
 module.exports = () => {
     Math.randomFloatRange = function(min, max){
@@ -32,6 +40,19 @@ module.exports = () => {
     Math.randomRange = function(min, max){
         return this.floor(this.random() * (max - min)) + min;
     }
+    Math.skewedRandom = function(n){
+        if(n <= 0)
+            n = 0.0001;
+        return helper2(n, Math.random());
+    }
+    Math.randomFloatRangeEx = function(min,max,source){
+        return source() * (max - min) + min;
+    }
+    Math.randomRangeEx = function(min,max,source){
+        return this.floor(source() * (max - min)) + min;
+    }
+
+
 
     Array.prototype.random = function(){
         return this[Math.randomRange(0, this.length)];
