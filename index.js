@@ -33,7 +33,8 @@
      return 0.5*helper(a,2*x-1)+0.5;
  }
 
-module.exports = () => {
+let nutil = {};
+nutil.setup = () => {
     Math.randomFloatRange = function(min, max){
         return this.random() * (max - min) + min;
     }
@@ -133,3 +134,13 @@ module.exports = () => {
         return ret;
     }
 };
+nutil.isNullOrEmpty = function(item){
+    return (item === null || typeof item ==='undefined');
+}
+nutil.min = function(a,b){
+    return (a > b) ? b : a;
+}
+nutil.max = function(a,b){
+    return (a < b) ? b : a;
+}
+module.exports = nutil;

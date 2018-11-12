@@ -1,4 +1,4 @@
-require('./../index.js')();
+require('./../index.js').setup();
 var assert = require('assert');
 function stdDev(){
     this.buffer = [];
