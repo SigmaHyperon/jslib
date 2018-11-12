@@ -1,6 +1,107 @@
 /**
  * random
  */
+function defaultComp(a, b){
+    if(a>b)
+        return -1;
+    if(a<b)
+        return 1;
+    return 0;
+}
+class Node {
+    constructor() {
+        this.key = null;
+        this.value = null;
+        this.left = null;
+        this.right = null;
+        this.comparator = null;
+        this.isMultiNode = false;
+    }
+    setKey(key){
+        this.key = key;
+        return this;
+    }
+    setValue(value){
+        this.value = value;
+        return this;
+    }
+    setComparator(comp){
+        this.comparator = comp;
+        return this;
+    }
+    newNode(key, value){
+        if(this.key === null){
+            this.setKey(key).setValue(value);
+            return;
+        }
+        if(typeof this.comparator !== 'function')
+            this.setComparator(defaultComp);
+        let nNode = new Node();
+        nNode.setKey(key).setValue(value).setComparator(this.comparator);
+        this.addNode(nNode);
+    }
+    addNode(node){
+        if(typeof this.comparator !== 'function')
+            throw 'wrong comparator set';
+        let eva = this.comparator(this.key, node.key);
+        if(eva == -1){
+            if(!nutil.isNullOrEmpty(this.left)){
+                this.left.addNode(node);
+            } else {
+                this.left = node;
+            }
+        } else if(eva == 1){
+            if(!nutil.isNullOrEmpty(this.right)){
+                this.right.addNode(node);
+            } else {
+                this.right = node;
+            }
+        } else if(eva == 0){
+            if(!this.isMultiNode){
+                if(this.value !== node.value)
+                    this.value = [this.value, node.value];
+            } else {
+                if(this.value.indexOf(node.value == -1))
+                    this.value.push(node.value);
+            }
+        }
+    }
+    inOrder(){
+        let ar = [];
+        if(!nutil.isNullOrEmpty(this.left))
+            ar = [...ar, ...this.left.inOrder()];
+        ar.push(this);
+        if(!nutil.isNullOrEmpty(this.right))
+            ar = [...ar, ...this.right.inOrder()];
+        return ar;
+    }
+    preOrder(){
+        let ar = [];
+        ar.push(this);
+        if(!nutil.isNullOrEmpty(this.left))
+            ar = [...ar, ...this.left.preOrder()];
+        if(!nutil.isNullOrEmpty(this.right))
+            ar = [...ar, ...this.right.preOrder()];
+        return ar;
+    }
+    postOrder(){
+        let ar = [];
+        if(!nutil.isNullOrEmpty(this.left))
+            ar = [...ar, ...this.left.postOrder()];
+        if(!nutil.isNullOrEmpty(this.right))
+            ar = [...ar, ...this.right.postOrder()];
+        ar.push(this);
+        return ar;
+    }
+    height(){
+        let a = 1, b = 1;
+        if(!nutil.isNullOrEmpty(this.left))
+            a += this.left.height();
+        if(!nutil.isNullOrEmpty(this.right))
+            b += this.right.height();
+        return nutil.max(a,b);
+    }
+}
  function stdDev(){
      this.buffer = [];
      this.addValue = function(v){
@@ -134,6 +235,7 @@ nutil.setup = () => {
         return ret;
     }
 };
+nutil.tree = Node;
 nutil.isNullOrEmpty = function(item){
     return (item === null || typeof item ==='undefined');
 }
