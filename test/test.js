@@ -141,3 +141,13 @@ describe('Object', function() {
         });
     });
 });
+describe('String', function() {
+    describe('#format()', function(){
+        it('should format correctly', function(){
+            assert.strictEqual("test{0}test".format("test"), "testtesttest");
+        })
+        it('should work with multiple parameters', function(){
+            assert.strictEqual("a{0}b{2}c{1}".format(6,7,8), "a6b8c7");
+        });
+    });
+});

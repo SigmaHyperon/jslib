@@ -234,6 +234,12 @@ nutil.setup = () => {
         }
         return ret;
     }
+
+    String.prototype.format = function(...args){
+        return this.replace(/{(\d+)}/g, function(match, number) {
+            return typeof args[number] != 'undefined' ? args[number] : match;
+        });
+    }
 };
 nutil.tree = Node;
 nutil.isNullOrEmpty = function(item){
