@@ -251,4 +251,9 @@ nutil.min = function(a,b){
 nutil.max = function(a,b){
     return (a < b) ? b : a;
 }
+nutil.clamp = function(n, min, max){
+    if(n < min) return min;
+    if(n > max) return max;
+    return n;
+}
 module.exports = nutil;
